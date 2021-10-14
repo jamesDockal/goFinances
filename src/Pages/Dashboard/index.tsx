@@ -33,9 +33,26 @@ export default function Dashboard() {
       </Header>
 
       <CardContainer>
-        <Card />
-        <Card />
-        <Card />
+        <Card
+          title="Entradas"
+          amount="R$ 17.400,00"
+          lastEntry="Última entrada dia 13 de outubro"
+          type="up"
+        />
+
+        <Card
+          title="Saidas"
+          amount="R$ 12.590,00"
+          lastEntry="Última entrada dia 3 de Abril"
+          type="down"
+        />
+
+        <Card
+          title="Total"
+          amount="R$ 16.141,00"
+          lastEntry="01 a 16 de Abril"
+          type="total"
+        />
       </CardContainer>
     </Container>
   );

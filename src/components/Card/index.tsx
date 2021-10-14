@@ -1,27 +1,38 @@
-import React from 'react'
+import React from "react";
 import {
-    Container,
-    Header,
-    Title,
-    Icon,
-    Footer,
-    Amount,
-    LastTransaction,
-} from './styles'
+  Container,
+  Header,
+  Title,
+  Icon,
+  Footer,
+  Amount,
+  LastTransaction,
+} from "./styles";
 
-export default function Card() {
-    return (
-        <Container>
-            <Header>
-                <Title>Entrada</Title>
-                <Icon 
-                    name='arrow-up-circle'
-                />
-            </Header>
-            <Footer>
-                <Amount>R$ 17.400,00</Amount>
-                <LastTransaction>Última entrada dia 13 de outubro</LastTransaction>
-            </Footer>
-        </Container>
-    )
+type Props = {
+  type: "up" | "down" | "total";
+  title: string;
+  amount: string;
+  lastEntry: string;
+};
+
+const icon = {
+  up: "arrow-up-circle",
+  down: "arrow-down-circle",
+  total: "dollar-sign",
+};
+
+export default function Card({ amount, lastEntry, title, type }: Props) {
+  return (
+    <Container type={type}>
+      <Header>
+        <Title type={type}>{title}</Title>
+        <Icon type={type} name={icon[type]} />
+      </Header>
+      <Footer>
+        <Amount type={type}>{amount}</Amount>
+        <LastTransaction type={type}>{lastEntry}</LastTransaction>
+      </Footer>
+    </Container>
+  );
 }

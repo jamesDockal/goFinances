@@ -22,7 +22,7 @@ export const UserWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 28px;
+  margin-top: ${RFPercentage(10)}px;
 `;
 
 export const UserInfo = styled.View`
@@ -66,5 +66,5 @@ export const CardContainer = styled.ScrollView.attrs({
 })`
   position: absolute;
   width: 100%;
-  margin-top: ${RFPercentage(20)}px;
+  margin-top: ${RFPercentage(25)}px;
 `;
