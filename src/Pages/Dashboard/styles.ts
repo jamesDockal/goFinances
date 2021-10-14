@@ -1,58 +1,70 @@
 import styled from "styled-components/native";
-import { RFPercentage,RFValue} from "react-native-responsive-fontsize";
-import { Feather } from '@expo/vector-icons'; 
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { Feather } from "@expo/vector-icons";
 
 export const Container = styled.View`
   flex: 1;
-  backgroundColor: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Header = styled.View`
   width: 100%;
   height: ${RFPercentage(42)}px;
-  backgroundColor: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary};
 
-  justifyContent: center;
-  alignItems: center;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 export const UserWrapper = styled.View`
   width: 100%;
-  padding: 0 24px;  
-  flexDirection: row;
-  justifyContent: space-between;
-  alignItems: center;
-`
+  padding: 0 24px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+`;
 
 export const UserInfo = styled.View`
-  flexDirection: row;
-` 
+  align-items: center;
+  flex-direction: row;
+`;
 
 export const UserImage = styled.Image`
   width: ${RFValue(48)}px;
   height: ${RFValue(48)}px;
-  borderRadius: 10px
-` 
+  border-radius: 10px;
+`;
 
 export const User = styled.View`
-  marginLeft: 8px;
-` 
+  margin-left: 8px;
+`;
 
 export const Greeting = styled.Text`
-  color: ${({theme}) => theme.colors.shape};
-  fontSize: ${RFValue(17)}px;
-  fontFamily: ${({theme}) => theme.fonts.regular}
-`
+  color: ${({ theme }) => theme.colors.shape};
+  font-size: ${RFValue(17)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+`;
 
 export const UserName = styled.Text`
-
-color: ${({theme}) => theme.colors.shape};
-fontSize: ${RFValue(17)}px;
-fontFamily: ${({theme}) => theme.fonts.bold}
-` 
+  color: ${({ theme }) => theme.colors.shape};
+  font-size: ${RFValue(17)}px;
+  font-family: ${({ theme }) => theme.fonts.bold};
+`;
 
 export const Power = styled(Feather)`
-  color: ${({theme}) => theme.colors.attention};
-  fontSize: ${RFValue(24)}px;
+  color: ${({ theme }) => theme.colors.attention};
+  font-size: ${RFValue(24)}px;
+`;
 
-`
+export const CardContainer = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingHorizontal: 24,
+  },
+})`
+  position: absolute;
+  width: 100%;
+  margin-top: ${RFPercentage(20)}px;
+`;
