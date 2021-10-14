@@ -11,34 +11,28 @@ import {
 } from "./styles.";
 
 type Props = {
-  title: string;
-  amount: string;
-  type: string;
-  date: string;
-  icon: string;
+  data: {
+    title: string;
+    amount: string;
+    type: string;
+    date: string;
+    icon: string;
+  };
 };
 
-export default function TransactionCard({
-  title,
-  amount,
-  date,
-  type,
-  icon,
-}: Props) {
-  console.log("category", amount[0]);
-
+export default function TransactionCard({ data }: Props) {
   return (
     <Container>
-      <Title>{title}</Title>
-      <Amount isNegative={amount[0] === "-"}>{amount}</Amount>
+      <Title>{data.title}</Title>
+      <Amount isNegative={data.amount[0] === "-"}>{data.amount}</Amount>
 
       <Footer>
         <CategoryContainer>
-          <Icon name={icon} />
-          <Category>{type}</Category>
+          <Icon name={data.icon} />
+          <Category>{data.type}</Category>
         </CategoryContainer>
 
-        <Date>{date}</Date>
+        <Date>{data.date}</Date>
       </Footer>
     </Container>
   );

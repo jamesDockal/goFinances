@@ -74,8 +74,10 @@ export const ListTitle = styled.Text`
   font-size: ${RFValue(20)}px;
 `;
 
-export const TransactionsCardsContainer = styled.ScrollView`
+export const TransactionsCardsContainer = styled.View`
   flex: 1%;
   padding: 0 24px;
   margin-top: ${RFPercentage(15)}px;
 `;
+
+export const TransactionsCardsList = styled.FlatList``;

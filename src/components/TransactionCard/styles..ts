@@ -9,6 +9,7 @@ type Negative = {
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.shape};
   padding: 12px 16px;
+  margin-bottom: ${RFValue(16)}px;
 `;
 
 export const Title = styled.Text`

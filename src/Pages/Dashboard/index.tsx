@@ -12,6 +12,7 @@ import {
   CardContainer,
   TransactionsCardsContainer,
   ListTitle,
+  TransactionsCardsList,
 } from "./styles";
 
 import Image from "../../../assets/teste.jpg";
@@ -19,6 +20,37 @@ import InfoCard from "../../components/InfoCard";
 import TransactionCard from "../../components/TransactionCard";
 
 export default function Dashboard() {
+  const items = [
+    {
+      amount: "R$ 12.000,00",
+      title: "Desenvolvimento de Site",
+      date: "13/04/2020",
+      icon: "dollar-sign",
+      type: "Vendas",
+    },
+    {
+      amount: "- R$ 59,00",
+      title: "Hamburgeuria Pizzy",
+      date: "13/04/2020",
+      icon: "coffee",
+      type: "Alimentação",
+    },
+    {
+      amount: "- R$ 59,00",
+      title: "Hamburgeuria Pizzy",
+      date: "13/04/2020",
+      icon: "coffee",
+      type: "Alimentação",
+    },
+    {
+      amount: "- R$ 59,00",
+      title: "Hamburgeuria Pizzy",
+      date: "13/04/2020",
+      icon: "coffee",
+      type: "Alimentação",
+    },
+  ];
+
   return (
     <Container>
       <Header>
@@ -61,20 +93,17 @@ export default function Dashboard() {
       <TransactionsCardsContainer>
         <ListTitle>Listagem</ListTitle>
 
-        <TransactionCard
-          amount="R$ 12.000,00"
-          title="Desenvolvimento de Site"
-          date="13/04/2020"
-          icon="dollar-sign"
-          type="Vendas"
-        />
-
-        <TransactionCard
-          amount="- R$ 59,00"
-          title="Hamburgeuria Pizzy"
-          date="13/04/2020"
-          icon="coffee"
-          type="Alimentação"
+        <TransactionsCardsList
+          data={items}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={
+            {
+              // paddingBottom: {}
+            }
+          }
+          renderItem={({ item }: any) => (
+            <TransactionCard key={item.title} data={item} />
+          )}
         />
       </TransactionsCardsContainer>
     </Container>
