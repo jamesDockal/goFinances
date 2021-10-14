@@ -10,10 +10,13 @@ import {
   UserName,
   Power,
   CardContainer,
+  TransactionsCardsContainer,
+  ListTitle,
 } from "./styles";
 
 import Image from "../../../assets/teste.jpg";
-import Card from "../../components/Card";
+import InfoCard from "../../components/InfoCard";
+import TransactionCard from "../../components/TransactionCard";
 
 export default function Dashboard() {
   return (
@@ -33,27 +36,47 @@ export default function Dashboard() {
       </Header>
 
       <CardContainer>
-        <Card
+        <InfoCard
           title="Entradas"
           amount="R$ 17.400,00"
           lastEntry="Última entrada dia 13 de outubro"
           type="up"
         />
 
-        <Card
+        <InfoCard
           title="Saidas"
           amount="R$ 12.590,00"
           lastEntry="Última entrada dia 3 de Abril"
           type="down"
         />
 
-        <Card
+        <InfoCard
           title="Total"
           amount="R$ 16.141,00"
           lastEntry="01 a 16 de Abril"
           type="total"
         />
       </CardContainer>
+
+      <TransactionsCardsContainer>
+        <ListTitle>Listagem</ListTitle>
+
+        <TransactionCard
+          amount="R$ 12.000,00"
+          title="Desenvolvimento de Site"
+          date="13/04/2020"
+          icon="dollar-sign"
+          type="Vendas"
+        />
+
+        <TransactionCard
+          amount="- R$ 59,00"
+          title="Hamburgeuria Pizzy"
+          date="13/04/2020"
+          icon="coffee"
+          type="Alimentação"
+        />
+      </TransactionsCardsContainer>
     </Container>
   );
 }

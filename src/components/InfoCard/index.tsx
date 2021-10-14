@@ -22,7 +22,7 @@ const icon = {
   total: "dollar-sign",
 };
 
-export default function Card({ amount, lastEntry, title, type }: Props) {
+export default function InfoCard({ amount, lastEntry, title, type }: Props) {
   return (
     <Container type={type}>
       <Header>
