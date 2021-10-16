@@ -16,8 +16,8 @@ import {
 } from "./styles";
 
 import Image from "../../../assets/teste.jpg";
-import InfoCard from "../../components/InfoCard";
 import TransactionCard from "../../components/TransactionCard";
+import InfoCard from "../../components/InfoCard";
 
 export default function Dashboard() {
   const items = [
@@ -66,7 +66,6 @@ export default function Dashboard() {
           <Power name="power" />
         </UserWrapper>
       </Header>
-
       <CardContainer>
         <InfoCard
           title="Entradas"
@@ -89,7 +88,6 @@ export default function Dashboard() {
           type="total"
         />
       </CardContainer>
-
       <TransactionsCardsContainer>
         <ListTitle>Listagem</ListTitle>
 

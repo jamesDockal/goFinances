@@ -11,6 +11,7 @@ import {
 
 import theme from "./src/Global/styles/theme";
 import Dashboard from "./src/Pages/Dashboard";
+import Register from "./src/Pages/Register";
 
 export default function App() {
   const [isLoaded] = useFonts({
@@ -25,7 +26,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      {/* <Dashboard /> */}
+      <Register />
     </ThemeProvider>
   );
 }
