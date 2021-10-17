@@ -5,5 +5,5 @@ export const StyledInput = styled.TextInput`
   background-color: ${({ theme }) => theme.colors.shape};
   width: 100%;
   padding: 16px 18px;
-  margin-bottom: ${RFValue(16)}px;
+  margin-bottom: ${RFValue(8)}px;
 `;

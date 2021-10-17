@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Modal, View, Text, Pressable } from "react-native";
 import Button from "../../components/Form/Button";
 import Input from "../../components/Form/Input";
 import TransactionButton from "../../components/Form/TransactionButton";
+import CategorySelect from "../../components/Form/CategorySelect";
+
 import {
   Container,
   Form,
@@ -10,9 +12,12 @@ import {
   Title,
   TransactionButtonContainer,
 } from "./styles";
+import Category from "../../components/Modal/Category";
 
 function Register() {
   const [selectedTransaction, setSelectedTransaction] = useState("");
+  const [isModalOPen, setIsModalOPen] = useState(false);
+  const [selectedItem, setselectedItem] = useState("");
 
   function handleSelection(name: string) {
     setSelectedTransaction(name);
@@ -22,6 +27,7 @@ function Register() {
     <Container>
       <Header>
         <Title>Cadastrar</Title>
+        <Title>{selectedItem}</Title>
       </Header>
       <Form>
         <View>
@@ -41,9 +47,19 @@ function Register() {
               isSelected={selectedTransaction === "down"}
             />
           </TransactionButtonContainer>
+          <CategorySelect
+            title="Categoria"
+            onPress={() => setIsModalOPen(true)}
+          />
         </View>
         <Button title="Salvar" />
       </Form>
+      <Modal visible={isModalOPen}>
+        <Category
+          closeModal={() => setIsModalOPen(false)}
+          getSelected={(name: string) => setselectedItem(name)}
+        />
+      </Modal>
     </Container>
   );
 }
