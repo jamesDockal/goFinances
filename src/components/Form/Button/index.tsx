@@ -7,9 +7,9 @@ interface Props extends TouchableOpacityProps {
   title: string;
 }
 
-const Button: React.FC<Props> = ({ title }) => {
+const Button: React.FC<Props> = ({ title, ...rest }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Title>{title}</Title>
     </Container>
   );
