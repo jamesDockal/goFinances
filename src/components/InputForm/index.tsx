@@ -3,7 +3,7 @@ import { Control, Controller, useForm } from "react-hook-form";
 import { TextInputProps } from "react-native";
 import Input from "../Form/Input";
 
-import { Container } from "./styles";
+import { Container, Error } from "./styles";
 
 interface Props extends TextInputProps {
   controller: Control;
@@ -12,8 +12,6 @@ interface Props extends TextInputProps {
 }
 
 const InputForm: React.FC<Props> = ({ controller, name, error, ...rest }) => {
-  console.log("error", error);
-
   return (
     <Container>
       <Controller
