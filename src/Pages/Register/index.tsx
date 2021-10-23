@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { Modal, View, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  Modal,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from "react-native";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Button from "../../components/Form/Button";
 import InputForm from "../../components/InputForm";
@@ -17,11 +24,14 @@ import {
   Title,
   TransactionButtonContainer,
 } from "./styles";
+import { useNavigation } from "@react-navigation/core";
 
 function Register() {
   const [selectedTransaction, setSelectedTransaction] = useState("");
   const [isModalOPen, setIsModalOPen] = useState(false);
-  const [selectedItem, setselectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+
+  const navigation = useNavigation();
 
   function handleSelection(name: string) {
     setSelectedTransaction(name);
@@ -39,12 +49,41 @@ function Register() {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  function hadleFormSubmit(data: any) {
-    console.log("data", data);
+  async function hadleFormSubmit(form: any) {
+    if (!selectedItem) {
+      return Alert.alert("Você Precisar Selecionar uma Categoria");
+    }
+    if (!selectedTransaction) {
+      return Alert.alert("Você Precisar Selecionar o Tipo");
+    }
+
+    const data = {
+      name: form.name,
+      price: form.price,
+      category: selectedItem,
+      type: selectedTransaction,
+      date: new Date(),
+    };
+
+    try {
+      await AsyncStorage.setItem(
+        "@gofinances:transactions",
+        JSON.stringify(data)
+      );
+
+      reset();
+      setSelectedTransaction("");
+      setSelectedItem("");
+      navigation.navigate("Listagem");
+    } catch (error) {
+      console.log("error", error);
+      Alert.alert("Um erro occreu");
+    }
   }
 
   return (
@@ -84,7 +123,7 @@ function Register() {
               />
             </TransactionButtonContainer>
             <CategorySelect
-              title="Categoria"
+              title={selectedItem || "Categoria"}
               onPress={() => setIsModalOPen(true)}
             />
           </View>
@@ -93,7 +132,7 @@ function Register() {
         <Modal visible={isModalOPen}>
           <Category
             closeModal={() => setIsModalOPen(false)}
-            getSelected={(name: string) => setselectedItem(name)}
+            getSelected={(name: string) => setSelectedItem(name)}
           />
         </Modal>
       </Container>
