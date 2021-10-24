@@ -21,7 +21,7 @@ export const Amount = styled.Text<Negative>`
   font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(18)}px;
   color: ${({ theme, isNegative }) =>
-    isNegative ? theme.colors.attention : theme.colors.black};
+    isNegative ? theme.colors.attention : theme.colors.success};
 `;
 
 export const Footer = styled.View`

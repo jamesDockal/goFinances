@@ -26,7 +26,11 @@ export const Title = styled.Text<Types>`
   font-size: ${RFValue(24)}px;
   font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme, type }) =>
-    type === "total" ? theme.colors.shape : theme.colors.black};
+    type === "total"
+      ? theme.colors.shape
+      : type === "down"
+      ? theme.colors.attention
+      : theme.colors.success};
 `;
 
 export const Icon = styled(Feather)<Types>`

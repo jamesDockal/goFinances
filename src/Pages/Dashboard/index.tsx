@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Container,
   Header,
@@ -19,24 +19,47 @@ import Image from "../../../assets/teste.jpg";
 import TransactionCard from "../../components/TransactionCard";
 import InfoCard from "../../components/InfoCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/core";
 
 type Transaction = {
-  price: string;
+  price: number;
   name: string;
   date: string;
   category: string;
-  type: string;
+  type: "up" | "down";
+};
+
+type TransactionAmount = {
+  total: string;
+  entries: string;
+  saidas: string;
 };
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionAmount, setTransactionAmount] = useState<TransactionAmount>(
+    {} as TransactionAmount
+  );
 
   async function getTransactions() {
     const storageKey = "@gofinances:transactions";
     const data = await AsyncStorage.getItem(storageKey);
 
+    let total = 0;
+    let entries = 0;
+    let saidas = 0;
+
     const formattedData: Transaction[] = JSON.parse(data!)?.map(
       (item: Transaction) => {
+        if (item.type === "up") {
+          entries += item.price;
+          total += item.price;
+        }
+        if (item.type === "down") {
+          saidas -= item.price;
+          total -= item.price;
+        }
+
         const amount = item.price.toLocaleString("pt-br", {
           style: "currency",
           currency: "BRL",
@@ -59,11 +82,32 @@ export default function Dashboard() {
     );
 
     setTransactions(formattedData);
+    setTransactionAmount({
+      entries: entries.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      }),
+      total: total.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      }),
+      saidas: saidas.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      }),
+    });
   }
 
   useEffect(() => {
     getTransactions();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getTransactions();
+    }, []),
+    []
+  );
 
   return (
     <Container>
@@ -83,9 +127,21 @@ export default function Dashboard() {
       <CardContainer>
         <InfoCard
           title="Entradas"
-          amount="R$ 17.400,00"
+          amount={transactionAmount.entries}
           lastEntry="Última entrada dia 13 de outubro"
           type="up"
+        />
+        <InfoCard
+          title="Saidas"
+          amount={transactionAmount.saidas}
+          lastEntry="Última entrada dia 13 de outubro"
+          type="down"
+        />
+        <InfoCard
+          title="Total"
+          amount={transactionAmount.total}
+          lastEntry="Última entrada dia 13 de outubro"
+          type="total"
         />
       </CardContainer>
       <TransactionsCardsContainer>
