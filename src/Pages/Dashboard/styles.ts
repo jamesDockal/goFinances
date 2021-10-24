@@ -81,3 +81,10 @@ export const TransactionsCardsContainer = styled.View`
 `;
 
 export const TransactionsCardsList = styled.FlatList``;
+
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
