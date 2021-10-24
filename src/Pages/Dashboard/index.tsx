@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Header,
@@ -18,38 +18,52 @@ import {
 import Image from "../../../assets/teste.jpg";
 import TransactionCard from "../../components/TransactionCard";
 import InfoCard from "../../components/InfoCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+type Transaction = {
+  price: string;
+  name: string;
+  date: string;
+  category: string;
+  type: string;
+};
 
 export default function Dashboard() {
-  const items = [
-    {
-      amount: "R$ 12.000,00",
-      title: "Desenvolvimento de Site",
-      date: "13/04/2020",
-      icon: "dollar-sign",
-      type: "Vendas",
-    },
-    {
-      amount: "- R$ 59,00",
-      title: "Hamburgeuria Pizzy",
-      date: "13/04/2020",
-      icon: "coffee",
-      type: "Alimentação",
-    },
-    {
-      amount: "- R$ 59,00",
-      title: "Hamburgeuria Pizzy",
-      date: "13/04/2020",
-      icon: "coffee",
-      type: "Alimentação",
-    },
-    {
-      amount: "- R$ 59,00",
-      title: "Hamburgeuria Pizzy",
-      date: "13/04/2020",
-      icon: "coffee",
-      type: "Alimentação",
-    },
-  ];
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  async function getTransactions() {
+    const storageKey = "@gofinances:transactions";
+    const data = await AsyncStorage.getItem(storageKey);
+
+    const formattedData: Transaction[] = JSON.parse(data!)?.map(
+      (item: Transaction) => {
+        const amount = item.price.toLocaleString("pt-br", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+        const date = Intl.DateTimeFormat("pt-br", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        }).format(new Date());
+
+        return {
+          name: item.name,
+          amount,
+          date,
+          type: item.type,
+          category: item.category,
+        };
+      }
+    );
+
+    setTransactions(formattedData);
+  }
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
 
   return (
     <Container>
@@ -73,26 +87,12 @@ export default function Dashboard() {
           lastEntry="Última entrada dia 13 de outubro"
           type="up"
         />
-
-        <InfoCard
-          title="Saidas"
-          amount="R$ 12.590,00"
-          lastEntry="Última entrada dia 3 de Abril"
-          type="down"
-        />
-
-        <InfoCard
-          title="Total"
-          amount="R$ 16.141,00"
-          lastEntry="01 a 16 de Abril"
-          type="total"
-        />
       </CardContainer>
       <TransactionsCardsContainer>
         <ListTitle>Listagem</ListTitle>
 
         <TransactionsCardsList
-          data={items}
+          data={transactions}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={
             {

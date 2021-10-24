@@ -71,9 +71,18 @@ function Register() {
     };
 
     try {
+      const storageKey = "@gofinances:transactions";
+      const allTransactions = await AsyncStorage.getItem(storageKey);
+
+      const parsedAllTransactions = allTransactions
+        ? JSON.parse(allTransactions)
+        : [];
+
+      const combinedTransactions = [...parsedAllTransactions, data];
+
       await AsyncStorage.setItem(
-        "@gofinances:transactions",
-        JSON.stringify(data)
+        storageKey,
+        JSON.stringify(combinedTransactions)
       );
 
       reset();
@@ -127,7 +136,7 @@ function Register() {
               onPress={() => setIsModalOPen(true)}
             />
           </View>
-          <Button title="ok" onPress={handleSubmit(hadleFormSubmit)} />
+          <Button title="Salvar" onPress={handleSubmit(hadleFormSubmit)} />
         </Form>
         <Modal visible={isModalOPen}>
           <Category
