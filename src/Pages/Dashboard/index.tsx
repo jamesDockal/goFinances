@@ -79,13 +79,18 @@ export default function Dashboard() {
   async function getTransactions() {
     const storageKey = "@gofinances:transactions";
     const savedData = await AsyncStorage.getItem(storageKey);
+    const data: Transaction[] = JSON.parse(savedData);
+    console.log("data", data);
+
+    if (!data) {
+      return setIsLoading(false);
+    }
 
     let total = 0;
     let entries = 0;
     let saidas = 0;
 
-    const data: Transaction[] = JSON.parse(savedData);
-    const formattedData: any[] = data.map((item: Transaction) => {
+    const formattedData: any[] = data?.map((item: Transaction) => {
       if (item.type === "up") {
         entries += item.price;
         total += item.price;
@@ -142,17 +147,11 @@ export default function Dashboard() {
     });
     setIsLoading(false);
   }
-  console.log("formattedTransactions", formattedTransactions);
-
-  useEffect(() => {
-    getTransactions();
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
       getTransactions();
-    }, []),
-    []
+    }, [])
   );
 
   return (
@@ -179,21 +178,21 @@ export default function Dashboard() {
           <CardContainer>
             <InfoCard
               title="Entradas"
-              amount={formattedTransactions.entries.amount}
+              amount={formattedTransactions?.entries?.amount}
               // lastEntry={`Última entrada dia 13 de outubro `}
-              lastEntry={`Última Transação em ${formattedTransactions.entries.lastTransaction}`}
+              lastEntry={`Última Transação em ${formattedTransactions?.entries?.lastTransaction}`}
               type="up"
             />
             <InfoCard
               title="Saidas"
-              amount={formattedTransactions.saidas.amount}
-              lastEntry={`Última Saida em ${formattedTransactions.saidas.lastTransaction}`}
+              amount={formattedTransactions?.saidas?.amount}
+              lastEntry={`Última Saida em ${formattedTransactions?.saidas?.lastTransaction}`}
               type="down"
             />
             <InfoCard
               title="Total"
-              amount={formattedTransactions.total.amount}
-              lastEntry={`Total de entrada de ${formattedTransactions.total.lastTransaction}`}
+              amount={formattedTransactions?.total?.amount}
+              lastEntry={`Total de entrada de ${formattedTransactions?.total?.lastTransaction}`}
               type="total"
             />
           </CardContainer>
