@@ -13,13 +13,14 @@ export const Header = styled.View`
   height: ${RFValue(115)}px;
   background-color: ${({ theme }) => theme.colors.primary};
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding: ${RFValue(16)}px;
 `;
 
 export const Title = styled.Text`
   color: white;
   font-family: ${({ theme }) => theme.fonts.medium};
+  font-size: ${RFValue(18)};
 `;
 
 export const HistoryContainer = styled.ScrollView`

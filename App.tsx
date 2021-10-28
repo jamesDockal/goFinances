@@ -17,6 +17,7 @@ import Register from "./src/Pages/Register";
 import AppRoutes from "./src/routes/app.routes";
 
 import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const [isLoaded] = useFonts({
@@ -31,8 +32,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Dashboard /> */}
       <NavigationContainer>
+        <StatusBar barStyle="light-content" />
         <AppRoutes />
       </NavigationContainer>
     </ThemeProvider>

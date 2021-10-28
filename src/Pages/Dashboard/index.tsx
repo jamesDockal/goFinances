@@ -79,8 +79,7 @@ export default function Dashboard() {
   async function getTransactions() {
     const storageKey = "@gofinances:transactions";
     const savedData = await AsyncStorage.getItem(storageKey);
-    const data: Transaction[] = JSON.parse(savedData);
-    console.log("data", data);
+    const data: Transaction[] = JSON.parse(savedData!);
 
     if (!data) {
       return setIsLoading(false);
@@ -201,12 +200,8 @@ export default function Dashboard() {
 
             <TransactionsCardsList
               data={transactions}
+              keyExtractor={(item: Transaction, index) => item.price}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={
-                {
-                  // paddingBottom: {}
-                }
-              }
               renderItem={({ item }: any) => (
                 <TransactionCard key={item.title} data={item} />
               )}

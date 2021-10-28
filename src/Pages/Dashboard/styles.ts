@@ -69,15 +69,15 @@ export const CardContainer = styled.ScrollView.attrs({
   margin-top: ${RFPercentage(25)}px;
 `;
 
-export const ListTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(20)}px;
-`;
-
 export const TransactionsCardsContainer = styled.View`
   flex: 1%;
   padding: 0 24px;
-  margin-top: ${RFPercentage(15)}px;
+  margin-top: ${RFPercentage(8)}px;
+`;
+
+export const ListTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  font-size: ${RFValue(20)}px;
 `;
 
 export const TransactionsCardsList = styled.FlatList``;

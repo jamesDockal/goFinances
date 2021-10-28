@@ -157,6 +157,7 @@ function Resume() {
 
         {expensiestransactions.map((transaction) => (
           <HisotryCard
+            key={transaction.name}
             amount={transaction.price}
             color={transaction.color}
             text={transaction.name}
