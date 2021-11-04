@@ -17,7 +17,7 @@ import {
   LoadingContainer,
 } from "./styles";
 
-import Image from "../../../assets/teste.jpg";
+import Image from "../../assets/teste.jpg";
 import TransactionCard from "../../components/TransactionCard";
 import InfoCard from "../../components/InfoCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";

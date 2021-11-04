@@ -20,7 +20,7 @@ export const Header = styled.View`
 export const Title = styled.Text`
   color: white;
   font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(18)};
+  font-size: ${RFValue(18)}px;
 `;
 
 export const HistoryContainer = styled.ScrollView`
