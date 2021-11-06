@@ -52,6 +52,8 @@ export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
+export const PowerContainer = styled.TouchableOpacity``;
+
 export const Power = styled(Feather)`
   color: ${({ theme }) => theme.colors.attention};
   font-size: ${RFValue(24)}px;

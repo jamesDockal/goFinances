@@ -15,6 +15,7 @@ import {
   ListTitle,
   TransactionsCardsList,
   LoadingContainer,
+  PowerContainer,
 } from "./styles";
 
 import Image from "../../assets/teste.jpg";
@@ -23,7 +24,7 @@ import InfoCard from "../../components/InfoCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/core";
 import { useTheme } from "styled-components";
-
+import { useAuth } from "../../hooks/Auth";
 type Transaction = {
   price: number;
   name: string;
@@ -54,6 +55,7 @@ export default function Dashboard() {
     useState<FormattedTransactions>({} as FormattedTransactions);
 
   const theme = useTheme();
+  const { logOut } = useAuth();
 
   function getLastTransactionDate(
     collection: Transaction[],
@@ -171,7 +173,13 @@ export default function Dashboard() {
                 </User>
               </UserInfo>
 
-              <Power name="power" />
+              <PowerContainer
+                onPress={() => {
+                  logOut();
+                }}
+              >
+                <Power name="power" onPre />
+              </PowerContainer>
             </UserWrapper>
           </Header>
           <CardContainer>

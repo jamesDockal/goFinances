@@ -12,14 +12,9 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import theme from "./src/Global/styles/theme";
-import Dashboard from "./src/Pages/Dashboard";
-import Register from "./src/Pages/Register";
-import AppRoutes from "./src/routes/app.routes";
-
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "react-native";
-import SignIn from "./src/Pages/SignIn";
 import { AuthProvider } from "./src/hooks/Auth";
+import Routes from "./src/routes";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const [isLoaded] = useFonts({
@@ -34,12 +29,9 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <StatusBar barStyle="light-content" />
       <ThemeProvider theme={theme}>
-        <SignIn />
-        {/* <NavigationContainer>
-        <StatusBar barStyle="light-content" />
-        <AppRoutes />
-      </NavigationContainer> */}
+        <Routes />
       </ThemeProvider>
     </AuthProvider>
   );
