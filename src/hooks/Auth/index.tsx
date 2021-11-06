@@ -13,6 +13,7 @@ type IAuthContext = {
   user: User;
   signInWithGoogle(): Promise<void>;
   logOut(): Promise<void>;
+  isUserLoading: boolean;
 };
 
 type AuthorizationResponse = {
@@ -26,11 +27,13 @@ const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User>({} as User);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const key = "@gofinances:user";
 
   useEffect(() => {
     AsyncStorage.getItem(key).then((user) => {
       user && setUser(JSON.parse(user));
+      setIsUserLoading(false);
     });
   }, []);
 
@@ -74,7 +77,9 @@ export const AuthProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, logOut }}>
+    <AuthContext.Provider
+      value={{ user, signInWithGoogle, logOut, isUserLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

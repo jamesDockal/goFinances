@@ -9,20 +9,21 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${RFPercentage(42)}px;
+  height: ${RFPercentage(35)}px;
   background-color: ${({ theme }) => theme.colors.primary};
 
-  justify-content: flex-start;
-  align-items: center;
+  /* justify-content: flex-start; */
+  /* align-items: center; */
 `;
 
 export const UserWrapper = styled.View`
   width: 100%;
+  /* flex: 1; */
   padding: 0 24px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: ${RFPercentage(10)}px;
+  margin-top: ${RFPercentage(5)}px;
 `;
 
 export const UserInfo = styled.View`
@@ -68,7 +69,7 @@ export const CardContainer = styled.ScrollView.attrs({
 })`
   position: absolute;
   width: 100%;
-  margin-top: ${RFPercentage(25)}px;
+  margin-top: ${RFPercentage(18)}px;
 `;
 
 export const TransactionsCardsContainer = styled.View`

@@ -19,6 +19,7 @@ import {
   HistoryContainer,
 } from "./styles";
 import { useFocusEffect } from "@react-navigation/core";
+import { useAuth } from "../../hooks/Auth";
 
 type Transaction = {
   price: number;
@@ -40,9 +41,9 @@ function Resume() {
     ExpenseTransaction[]
   >([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const { user } = useAuth();
   async function loadData() {
-    const storageKey = "@gofinances:transactions";
+    const storageKey = `@gofinances:transactions_user:${user.id}`;
     const savedData = await AsyncStorage.getItem(storageKey);
     const data: Transaction[] = JSON.parse(savedData!);
 

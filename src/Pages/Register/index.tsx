@@ -71,7 +71,7 @@ function Register() {
     };
 
     try {
-      const storageKey = "@gofinances:transactions";
+      const storageKey = `@gofinances:transactions_user:${user.id}`;
       const allTransactions = await AsyncStorage.getItem(storageKey);
 
       const parsedAllTransactions = allTransactions

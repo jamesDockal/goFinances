@@ -55,7 +55,8 @@ export default function Dashboard() {
     useState<FormattedTransactions>({} as FormattedTransactions);
 
   const theme = useTheme();
-  const { logOut } = useAuth();
+  const { user, logOut } = useAuth();
+  const storageKey = `@gofinances:transactions_user:${user.id}`;
 
   function getLastTransactionDate(
     collection: Transaction[],
@@ -79,7 +80,6 @@ export default function Dashboard() {
   }
 
   async function getTransactions() {
-    const storageKey = "@gofinances:transactions";
     const savedData = await AsyncStorage.getItem(storageKey);
     const data: Transaction[] = JSON.parse(savedData!);
 
@@ -166,10 +166,10 @@ export default function Dashboard() {
           <Header>
             <UserWrapper>
               <UserInfo>
-                <UserImage source={Image} />
+                <UserImage source={{ uri: user.picture }} />
                 <User>
                   <Greeting>Olá, </Greeting>
-                  <UserName>James</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
 
@@ -185,15 +185,22 @@ export default function Dashboard() {
           <CardContainer>
             <InfoCard
               title="Entradas"
-              amount={formattedTransactions?.entries?.amount}
-              // lastEntry={`Última entrada dia 13 de outubro `}
-              lastEntry={`Última Transação em ${formattedTransactions?.entries?.lastTransaction}`}
+              amount={formattedTransactions?.entries?.amount || "R$ 0,00"}
+              lastEntry={
+                formattedTransactions?.entries?.lastTransaction
+                  ? `Última Transação em ${formattedTransactions?.entries?.lastTransaction}`
+                  : "Ainda Sem Entradas"
+              }
               type="up"
             />
             <InfoCard
               title="Saidas"
-              amount={formattedTransactions?.saidas?.amount}
-              lastEntry={`Última Saida em ${formattedTransactions?.saidas?.lastTransaction}`}
+              amount={formattedTransactions?.saidas?.amount || "R$ 0,00"}
+              lastEntry={
+                formattedTransactions?.saidas?.lastTransaction
+                  ? `Última Saida em ${formattedTransactions?.saidas?.lastTransaction}`
+                  : "Ainda Sem Saidas"
+              }
               type="down"
             />
             <InfoCard
@@ -208,7 +215,7 @@ export default function Dashboard() {
 
             <TransactionsCardsList
               data={transactions}
-              keyExtractor={(item: Transaction, index) => item.price}
+              keyExtractor={(item, index) => "key" + index}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }: any) => (
                 <TransactionCard key={item.title} data={item} />

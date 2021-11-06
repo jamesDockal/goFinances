@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Platform } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import LogoSvg from "../../assets/logo.svg";
@@ -17,15 +18,22 @@ import {
   FooterWrapper,
 } from "./styles";
 import { useAuth } from "../../hooks/Auth";
+import { ActivityIndicator } from "react-native";
+import { useTheme } from "styled-components";
+import theme from "../../Global/styles/theme";
 
 const SignIn: React.FC = () => {
+  const [isloading, setIsloading] = useState(false);
   const { signInWithGoogle } = useAuth();
+  const theme = useTheme();
 
   async function handleSignInWithGoogle() {
     try {
-      await signInWithGoogle();
+      setIsloading(true);
+      return await signInWithGoogle();
     } catch (error) {
       console.log("error", error);
+      setIsloading(false);
     }
   }
 
@@ -49,11 +57,21 @@ const SignIn: React.FC = () => {
             svg={GoogleLogo}
             onPress={handleSignInWithGoogle}
           />
-          <SignInSocialButton
-            title="Entrar com conta da Apple"
-            svg={AppleLogo}
-          />
+          {Platform.OS === "ios" && (
+            <SignInSocialButton
+              title="Entrar com conta da Apple"
+              svg={AppleLogo}
+            />
+          )}
         </FooterWrapper>
+        {isloading && (
+          <ActivityIndicator
+            color={theme.colors.shape}
+            style={{
+              marginTop: 18,
+            }}
+          />
+        )}
       </Footer>
     </Container>
   );

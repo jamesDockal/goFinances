@@ -12,18 +12,20 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import theme from "./src/Global/styles/theme";
-import { AuthProvider } from "./src/hooks/Auth";
+import { AuthProvider, useAuth } from "./src/hooks/Auth";
 import Routes from "./src/routes";
 import { StatusBar } from "react-native";
 
 export default function App() {
+  const { isUserLoading } = useAuth();
+
   const [isLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold,
   });
 
-  if (!isLoaded) {
+  if (!isLoaded || isUserLoading) {
     return <AppLoading />;
   }
 
