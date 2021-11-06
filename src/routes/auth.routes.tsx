@@ -7,7 +7,11 @@ import SignIn from "../Pages/SignIn";
 
 const AuthRoutes: React.FC = () => {
   return (
-    <Navigator>
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Screen name="SignIn" component={SignIn} />
     </Navigator>
   );
