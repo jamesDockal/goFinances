@@ -20,7 +20,6 @@ import {
 import { useAuth } from "../../hooks/Auth";
 import { ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
-import theme from "../../Global/styles/theme";
 
 const SignIn: React.FC = () => {
   const [isloading, setIsloading] = useState(false);
@@ -33,8 +32,8 @@ const SignIn: React.FC = () => {
       return await signInWithGoogle();
     } catch (error) {
       console.log("error", error);
-      setIsloading(false);
     }
+    setIsloading(false);
   }
 
   return (

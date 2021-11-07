@@ -25,6 +25,7 @@ import {
   TransactionButtonContainer,
 } from "./styles";
 import { useNavigation } from "@react-navigation/core";
+import { useAuth } from "../../hooks/Auth";
 
 function Register() {
   const [selectedTransaction, setSelectedTransaction] = useState("");
@@ -32,7 +33,7 @@ function Register() {
   const [selectedItem, setSelectedItem] = useState("");
 
   const navigation = useNavigation();
-
+  const { user } = useAuth();
   function handleSelection(name: string) {
     setSelectedTransaction(name);
   }
@@ -88,10 +89,12 @@ function Register() {
       reset();
       setSelectedTransaction("");
       setSelectedItem("");
-      navigation.navigate("Listagem");
+      navigation.navigate({
+        key: "Listagem",
+      });
     } catch (error) {
       console.log("error", error);
-      Alert.alert("Um erro occreu");
+      Alert.alert("Um Erro Ocorreu");
     }
   }
 

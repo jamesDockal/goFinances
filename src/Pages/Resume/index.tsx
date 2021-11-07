@@ -43,60 +43,61 @@ function Resume() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { user } = useAuth();
   async function loadData() {
-    const storageKey = `@gofinances:transactions_user:${user.id}`;
+    const storageKey = `@gofinances:transactions_user:${user?.id}`;
     const savedData = await AsyncStorage.getItem(storageKey);
     const data: Transaction[] = JSON.parse(savedData!);
+    if (data) {
+      const totalByCategory: ExpenseTransaction[] = [];
 
-    const totalByCategory: ExpenseTransaction[] = [];
+      const totalExpense = data?.reduce(
+        (accumulator: number, expensive: Transaction) => {
+          if (expensive.type === "down") {
+            return accumulator + Number(expensive.price);
+          } else {
+            return accumulator;
+          }
+        },
+        0
+      );
 
-    const totalExpense = data.reduce(
-      (accumulator: number, expensive: Transaction) => {
-        if (expensive.type === "down") {
-          return accumulator + Number(expensive.price);
-        } else {
-          return accumulator;
-        }
-      },
-      0
-    );
+      const expensivines = data.filter(
+        (expensive: Transaction) =>
+          expensive.type === "down" &&
+          new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
+          new Date(expensive.date).getFullYear() === selectedDate.getFullYear()
+      );
 
-    const expensivines = data.filter(
-      (expensive: Transaction) =>
-        expensive.type === "down" &&
-        new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
-        new Date(expensive.date).getFullYear() === selectedDate.getFullYear()
-    );
+      categories.forEach((category) => {
+        let totalSum = 0;
 
-    categories.forEach((category) => {
-      let totalSum = 0;
+        expensivines.forEach((transaction) => {
+          if (
+            transaction.type === "down" &&
+            transaction.category === category.name
+          ) {
+            totalSum += transaction.price;
+          }
+        });
 
-      expensivines.forEach((transaction) => {
-        if (
-          transaction.type === "down" &&
-          transaction.category === category.name
-        ) {
-          totalSum += transaction.price;
+        if (totalSum) {
+          const porcentage = ((totalSum / totalExpense) * 100).toFixed(2);
+          const formmatedPorcentage = `${porcentage}%`;
+
+          const formattedPrice = totalSum.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+          totalByCategory.push({
+            name: category.name,
+            price: formattedPrice,
+            color: category.color,
+            porcentage: formmatedPorcentage,
+          });
         }
       });
 
-      if (totalSum) {
-        const porcentage = (totalSum / totalExpense) * 100;
-        const formmatedPorcentage = `${porcentage}%`;
-
-        const formattedPrice = totalSum.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-        totalByCategory.push({
-          name: category.name,
-          price: formattedPrice,
-          color: category.color,
-          porcentage: formmatedPorcentage,
-        });
-      }
-    });
-
-    setExpensiesTransactions(totalByCategory);
+      setExpensiesTransactions(totalByCategory);
+    }
   }
 
   useFocusEffect(
@@ -156,7 +157,7 @@ function Resume() {
           height={350}
         />
 
-        {expensiestransactions.map((transaction) => (
+        {expensiestransactions?.map((transaction) => (
           <HisotryCard
             key={transaction.name}
             amount={transaction.price}
