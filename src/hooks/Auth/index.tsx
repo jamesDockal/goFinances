@@ -62,6 +62,7 @@ export const AuthProvider: React.FC = ({ children }) => {
           id: userInfo.id,
           picture: userInfo.picture,
         };
+        
         setUser(loggedUser);
 
         await AsyncStorage.setItem(key, JSON.stringify(loggedUser));
