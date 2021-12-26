@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as AuthSession from "expo-auth-session";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type User = {
   id: string;
@@ -17,6 +18,7 @@ type IAuthContext = {
 };
 
 type AuthorizationResponse = {
+  user: any;
   type: string;
   params: {
     access_token: string;
@@ -30,12 +32,12 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [isUserLoading, setIsUserLoading] = useState(true);
   const key = "@gofinances:user";
 
-  useEffect(() => {
-    AsyncStorage.getItem(key).then((user) => {
-      user && setUser(JSON.parse(user));
-      setIsUserLoading(false);
-    });
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem(key).then((user) => {
+  //     user && setUser(JSON.parse(user));
+  //     setIsUserLoading(false);
+  //   });
+  // }, []);
 
   async function signInWithGoogle() {
     try {
@@ -46,15 +48,19 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${responseType}&scope=${scope}`;
 
-      const { type, params } = (await AuthSession.startAsync({
+      const { type, params, user } = (await AuthSession.startAsync({
         authUrl,
       })) as AuthorizationResponse;
 
+      if (user?.id) {
+        return setUser(user);
+      }
+
       if (type === "success") {
-        const response = await fetch(
+        const response = await axios.get(
           `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
         );
-        const userInfo = await response.json();
+        const userInfo = await response.data.json();
 
         const loggedUser = {
           email: userInfo.email,
@@ -62,10 +68,10 @@ export const AuthProvider: React.FC = ({ children }) => {
           id: userInfo.id,
           picture: userInfo.picture,
         };
-        
+
         setUser(loggedUser);
 
-        await AsyncStorage.setItem(key, JSON.stringify(loggedUser));
+        // await AsyncStorage.setItem(key, JSON.stringify(loggedUser));
       }
     } catch (error: any) {
       throw new Error(error);
@@ -74,7 +80,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   async function logOut() {
     setUser({} as User);
-    await AsyncStorage.removeItem(key);
+    // await AsyncStorage.removeItem(key);
   }
 
   return (
